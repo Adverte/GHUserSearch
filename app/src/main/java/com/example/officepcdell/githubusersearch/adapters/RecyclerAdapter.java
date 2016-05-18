@@ -17,7 +17,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.ViewH
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTextView;
 
-        public static class ViewHolder(View v) {
+        public ViewHolder(View v) {
             super(v);
             mTextView = (TextView) v.findViewById(R.id.tv_recycler_item);
         }
@@ -47,6 +47,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.ViewH
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
+
     // set content for each view item
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
