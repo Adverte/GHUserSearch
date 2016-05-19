@@ -2,7 +2,6 @@ package com.example.officepcdell.githubusersearch;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -31,10 +30,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StartActivity extends AppCompatActivity {
-  //  private static final int SEARCH_DELAY_MS = 300;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
 
     @Override
@@ -49,16 +44,8 @@ public class StartActivity extends AppCompatActivity {
          */
         if (!connectInternet()) {
             Toast.makeText(this, R.string.check_internet, Toast.LENGTH_LONG).show();
-            return;
         }
-/**
-        Intent myIntent = getIntent();
-        if(Intent.ACTION_SEARCH.equals(myIntent.getAction())){
-            String query = myIntent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, query, Toast.LENGTH_LONG).show();
-        } */
     }
-
     public boolean connectInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -82,8 +69,6 @@ public class StartActivity extends AppCompatActivity {
                 new SearchView.OnQueryTextListener () {
                     @Override
                     public boolean onQueryTextChange(String newText){
-                        //mHandler.removeCallbacks(mUserListQuery);
-                        //mHandler.postDelayed(mUserListQuery, SEARCH_DELAY_MS);
                         System.out.println(newText);
                         if (!newText.trim().isEmpty()){ SetSearchQuery(newText);}
                         return false;
@@ -100,7 +85,6 @@ public class StartActivity extends AppCompatActivity {
 
     private void SetSearchQuery(String newText) {
         githubServiceClass service = ServiceGenerator.createService(githubServiceClass.class);
-        //SearchRequest requestText =new SearchRequest(newText);
         Call<SearchResponse> call = service.requestUserList(newText);
         call.enqueue(callback());
     }
@@ -111,15 +95,10 @@ public class StartActivity extends AppCompatActivity {
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                 if (response.isSuccessful()) {
                     getDataSet(response);
-                    // System.out.println(body.getItems().get(0).getLogin());
-                    // HttpResponse respuesta = response.body();
-                    Log.e("Adaptador", "" );
-
-                    //startActivity(new Intent(getApplicationContext(),StartActivity.class));
                 }
                 else{
                     APIError error = ErrorUtils.parseError(response);
-                    String toastString = "something wrong: " + error.message()+":"+ error.statusCode();
+                    String toastString = getString(R.string.error_message) + error.message()+":"+ error.statusCode();
                     Toast.makeText(getApplicationContext(),toastString, Toast.LENGTH_LONG).show();
                     System.out.println("Error, not succesfull: "+ error.message());
                 }
@@ -133,30 +112,18 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void getDataSet(Response<SearchResponse> response) {
-        //myDataSet = new String[];
-        ArrayList<String> scripts = new ArrayList<String>();
-        //int i =0;
+        ArrayList<String> scripts = new ArrayList<>();
         List<SearchResponse.ItemsBean> items = response.body().getItems();
         for (SearchResponse.ItemsBean item : items) {
             String loginitem = item.getLogin();
             scripts.add(loginitem);
-            //myDataset[i] = loginitem;
-            //i++;
-            //System.out.println(item.getLogin());
         }
-        //return myDataset;
-        //return scripts;
-        mRecyclerView = (RecyclerView) findViewById(R.id.users_recycler_view);
-        if (mRecyclerView != null)
-            // если мы уверены, что изменения в контенте не изменят размер layout-а RecyclerView
-            // передаем параметр true - это увеличивает производительность
-            //mRecyclerView.setHasFixedSize(false);
 
-            // используем linear layout manager
-            mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.users_recycler_view);
+        assert mRecyclerView != null;
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        // создаем адаптер
-        mAdapter = new RecyclerAdapter(scripts);
+        RecyclerView.Adapter mAdapter = new RecyclerAdapter(scripts);
         mRecyclerView.setAdapter(mAdapter);
     }
 
