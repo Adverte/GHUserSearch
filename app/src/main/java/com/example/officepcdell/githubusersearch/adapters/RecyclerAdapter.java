@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import com.example.officepcdell.githubusersearch.R;
 
+import java.util.ArrayList;
+
 public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.ViewHolder> {
 
-    private String[] mDataset;
+    private ArrayList<String> mDataset;
     /**
      * class for receiving each element in list item
      */
@@ -27,7 +29,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.ViewH
      *  Constructor
      * @param dataset
      */
-    public RecyclerAdapter(String[] dataset) {
+    public RecyclerAdapter(ArrayList<String> dataset) {
         mDataset = dataset;
     }
 
@@ -51,11 +53,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter <RecyclerAdapter.ViewH
     // set content for each view item
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(mDataset.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.officepcdell.githubusersearch;
+package com.example.officepcdell.githubusersearch.networks;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

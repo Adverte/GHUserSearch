@@ -1,4 +1,4 @@
-package com.example.officepcdell.githubusersearch;
+package com.example.officepcdell.githubusersearch.networks;
 
 import com.example.officepcdell.githubusersearch.classes.APIError;
 

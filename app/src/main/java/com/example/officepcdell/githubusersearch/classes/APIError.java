@@ -8,7 +8,7 @@ public class APIError {
     public APIError() {
     }
 
-    public int status() {
+    public int statusCode() {
         return statusCode;
     }
     public String message() {

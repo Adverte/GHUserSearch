@@ -3,7 +3,7 @@ package com.example.officepcdell.githubusersearch.classes;
 
 import java.util.List;
 
-public class searchResponse {
+public class SearchResponse {
 
     /**
      * total_count : 12

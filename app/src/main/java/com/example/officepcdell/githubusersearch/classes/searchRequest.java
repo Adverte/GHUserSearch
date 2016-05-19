@@ -1,10 +1,10 @@
 package com.example.officepcdell.githubusersearch.classes;
 
-public class searchRequest {
-    final String searchTerms;
+public class SearchRequest {
+    public final String queryText;
 
     /** Constructor */
-    public searchRequest(String searchTerms){
-        this.searchTerms = searchTerms;
+    public SearchRequest(String queryText){
+        this.queryText = queryText;
     }
 }
